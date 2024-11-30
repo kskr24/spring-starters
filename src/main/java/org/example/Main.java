@@ -1,7 +1,6 @@
 package org.example;
 
 import model.Comment;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import proxies.EmailCommentNotificationProxy;
 import repositories.DBCommentRepository;
 import services.CommentService;
