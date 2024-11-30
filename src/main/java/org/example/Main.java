@@ -1,18 +1,21 @@
 package org.example;
 
-import beans.Parrot;
-import beans.Person;
-import config.ProjectConfig;
+import model.Comment;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import proxies.EmailCommentNotificationProxy;
+import repositories.DBCommentRepository;
+import services.CommentService;
 
 public class Main {
     public static void main(String[] args) {
-        var context = new AnnotationConfigApplicationContext(ProjectConfig.class);
+        var commentRepository = new DBCommentRepository();
+        var commentNotificationProxy = new EmailCommentNotificationProxy();
+        var commentService = new CommentService(commentRepository, commentNotificationProxy);
+        var comment = new Comment();
 
-        Person p = context.getBean(Person.class);
-        Parrot pp = p.getParrot();
+        comment.setAuthor("Carlo Ancelotti");
+        comment.setText("We'll be in the final in Munich.");
 
-        System.out.println(p.getName());
-        System.out.println(pp.getName());
+        commentService.publishComment(comment);
     }
 }
